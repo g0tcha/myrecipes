@@ -48,6 +48,12 @@ class HomeViewController: UIViewController {
         searchBar.barTintColor = .white
         return searchBar
     }()
+    
+    let collectionView: HomeRecipeCollectionView = {
+        let collectionViewFlowLayout = HomeRecipeCollectionViewFlowLayout()
+        let collectionView = HomeRecipeCollectionView(frame: CGRect(), collectionViewLayout: collectionViewFlowLayout)
+        return collectionView
+    }()
 
     // MARK: - Lifecycle
     
@@ -69,6 +75,7 @@ extension HomeViewController: Designable {
     
     func setupUI() {
         view.backgroundColor = .white
+        navigationController?.navigationBar.backgroundColor = .white
         
         view.addSubview(profileImageView)
         profileImageView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 42, height: 42)
@@ -81,6 +88,21 @@ extension HomeViewController: Designable {
         
         view.addSubview(searchBar)
         searchBar.anchor(top: searchTitleLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 0)
+        
+        view.addSubview(collectionView)
+        collectionView.selectionDelegate = self
+        collectionView.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 15, paddingBottom: 15, paddingRight: 15, width: 0, height: 300)
+    }
+    
+}
+
+extension HomeViewController: HomeRecipeCollectionViewProtocol {
+    
+    func homeRecipeCollectionViewDidSelectItem() {
+        let categoryController = CategoryViewController()
+        
+        navigationController?.navigationBar.barTintColor = Colors.mainPurle
+        navigationController?.pushViewController(categoryController, animated: true)
     }
     
 }
